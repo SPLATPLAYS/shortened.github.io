@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <script>
+        // This script runs when a non-existent URL is hit.
+        // It checks if the path matches a short URL and redirects if so.
+        (async () => {
+            const path = window.location.pathname.slice(1); // Remove leading slash
+            const response = await fetch(`https://your-serverless-function-url/resolve/${path}`);
+            if (response.ok) {
+                const data = await response.json();
+                window.location.href = data.url;
+            } else {
+                document.body.innerHTML = 'URL not found.';
+            }
+        })();
+    </script>
+</head>
+<body>
+</body>
+</html>
