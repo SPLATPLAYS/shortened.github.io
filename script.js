@@ -18,20 +18,21 @@ function isValidUrl(url) {
     return !!pattern.test(url);
 }
 
-async function shortenUrl(url) {
-    // Placeholder for backend call to shorten URL
-    // This example assumes you have a serverless function endpoint ready
-    const response = await fetch('https://your-serverless-function-url/shorten', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url: url }),
-    });
-    const data = await response.json();
-    if (response.ok) {
-        document.getElementById('result').textContent = `Shortened URL: ${data.shortUrl}`;
-    } else {
-        alert('Error shortening URL');
-    }
+function shortenUrl(url) {
+    const shortId = generateShortId();
+    const shortUrl = window.location.href + 'short/' + shortId;
+
+    // Save mapping in the 'short' folder
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', 'short/' + shortId, true);
+    xhr.setRequestHeader('Content-Type', 'text/plain');
+    xhr.send(url);
+
+    document.getElementById('result').textContent = `Shortened URL: ${shortUrl}`;
+}
+
+function generateShortId() {
+    // Implement a function to generate a unique short identifier
+    // This can be as simple as a random string or a hash function
+    // Example: return Math.random().toString(36).substr(2, 8);
 }
